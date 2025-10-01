@@ -1,0 +1,34 @@
+# Prettier ignore file
+# Files and directories to skip formatting
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Logs
+logs/
+*.log
+
+# Coverage reports
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# GitHub Actions
+.github/workflows/*
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

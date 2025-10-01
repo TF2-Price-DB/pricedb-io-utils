@@ -1,0 +1,60 @@
+{
+  "name": "@pricedb/io-utils",
+  "version": "1.0.0",
+  "description": "A collection of utility classes for Node.js applications including logging, caching, base controllers, and middleware",
+  "main": "index.js",
+  "type": "commonjs",
+  "keywords": [
+    "utilities",
+    "logging",
+    "cache",
+    "middleware",
+    "express",
+    "controller",
+    "cloudflare"
+  ],
+  "author": "PriceDB",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pricedb/io-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pricedb/io-utils/issues"
+  },
+  "homepage": "https://pricedb.io",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "lib/",
+    "index.js",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./logger": "./lib/logger.js",
+    "./cache": "./lib/cache.js",
+    "./controller": "./lib/controller.js",
+    "./cloudflare": "./lib/cloudflare.js"
+  },
+  "scripts": {
+    "test": "node test.js",
+    "test:basic": "node test.js",
+    "lint": "eslint lib/ index.js",
+    "format": "prettier --write lib/ index.js README.md",
+    "prepublishOnly": "npm run lint && npm run format",
+    "example": "node examples/complete-app.js"
+  },
+  "dependencies": {
+    "express-validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "peerDependencies": {
+    "express": "^4.0.0"
+  }
+}
