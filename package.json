@@ -17,10 +17,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pricedb/io-utils.git"
+    "url": "git+https://github.com/TF2-Price-DB/pricedb-io-utils.git"
   },
   "bugs": {
-    "url": "https://github.com/pricedb/io-utils/issues"
+    "url": "https://github.com/TF2-Price-DB/pricedb-io-utils/issues"
   },
   "homepage": "https://pricedb.io",
   "engines": {
