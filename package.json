@@ -1,6 +1,6 @@
 {
   "name": "@pricedb-io/utils",
-  "version": "1.0.1",
+  "version": "1.0.7",
   "description": "A collection of utility classes for Node.js applications including logging, caching, base controllers, and middleware",
   "main": "index.js",
   "type": "commonjs",
