@@ -1,5 +1,5 @@
 /**
- * @pricedb/io-utils
+ * @pricedb-io/utils
  * A collection of utility classes for Node.js applications
  */
 
@@ -13,11 +13,11 @@ module.exports = {
   CacheService,
   BaseController,
   CloudflareProtection,
-  
+
   // For convenience, also export instances
   logger: new Logger(),
   cache: new CacheService(),
-  
+
   // Middleware factory
   cloudflareMiddleware: CloudflareProtection.create,
 };

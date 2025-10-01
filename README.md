@@ -1,21 +1,21 @@
-# @pricedb/io-utils
+# @pricedb-io/utils
 
 A collection of utility classes for Node.js applications including configurable logging, in-memory caching, base controllers for Express.js, and Cloudflare protection middleware.
 
 ## Installation
 
 ```bash
-npm install @pricedb/io-utils
+npm install @pricedb-io/utils
 ```
 
 ## Quick Start
 
 ```javascript
-const { Logger, CacheService, BaseController, CloudflareProtection } = require('@pricedb/io-utils');
+const { Logger, CacheService, BaseController, CloudflareProtection } = require('@pricedb-io/utils');
 
 // Or import individual modules
-const Logger = require('@pricedb/io-utils/logger');
-const CacheService = require('@pricedb/io-utils/cache');
+const Logger = require('@pricedb-io/utils/logger');
+const CacheService = require('@pricedb-io/utils/cache');
 ```
 
 ## Modules
@@ -25,6 +25,7 @@ const CacheService = require('@pricedb/io-utils/cache');
 A flexible logging service that supports console, file, and custom logging handlers.
 
 #### Features
+
 - Configurable log levels (debug, info, warn, error)
 - Multiple output formats (JSON, simple text)
 - Console and file logging support
@@ -35,7 +36,7 @@ A flexible logging service that supports console, file, and custom logging handl
 #### Usage
 
 ```javascript
-const { Logger } = require('@pricedb/io-utils');
+const { Logger } = require('@pricedb-io/utils');
 
 // Create logger instance
 const logger = new Logger({
@@ -43,7 +44,7 @@ const logger = new Logger({
   enableConsole: true,
   enableFile: true,
   filePath: './logs/app.log',
-  format: 'json'
+  format: 'json',
 });
 
 // Basic logging
@@ -65,14 +66,14 @@ timer.end('Query completed'); // Logs with duration
 
 ```javascript
 const logger = new Logger({
-  level: 'info',              // Minimum log level: debug, info, warn, error
-  enableConsole: true,        // Enable console output
-  enableFile: false,          // Enable file output
-  filePath: null,             // Path to log file
-  format: 'json',             // Format: 'json' or 'simple'
-  includeTimestamp: true,     // Include timestamp in logs
-  includeLevel: true,         // Include log level in output
-  customHandler: null         // Custom log handler function
+  level: 'info', // Minimum log level: debug, info, warn, error
+  enableConsole: true, // Enable console output
+  enableFile: false, // Enable file output
+  filePath: null, // Path to log file
+  format: 'json', // Format: 'json' or 'simple'
+  includeTimestamp: true, // Include timestamp in logs
+  includeLevel: true, // Include log level in output
+  customHandler: null, // Custom log handler function
 });
 ```
 
@@ -94,6 +95,7 @@ const logger = new Logger({
 An in-memory caching service with TTL support, size limits, and automatic cleanup.
 
 #### Features
+
 - Configurable TTL (Time To Live)
 - Maximum cache size with LRU eviction
 - Automatic cleanup of expired entries
@@ -104,14 +106,14 @@ An in-memory caching service with TTL support, size limits, and automatic cleanu
 #### Usage
 
 ```javascript
-const { CacheService } = require('@pricedb/io-utils');
+const { CacheService } = require('@pricedb-io/utils');
 
 // Create cache instance
 const cache = new CacheService({
-  defaultTTL: 300,     // 5 minutes
-  maxSize: 1000,       // Maximum 1000 entries
+  defaultTTL: 300, // 5 minutes
+  maxSize: 1000, // Maximum 1000 entries
   enableLogging: true,
-  logger: logger
+  logger: logger,
 });
 
 // Basic caching
@@ -122,10 +124,14 @@ const user = await cache.get('user:123');
 await cache.set('temp:data', { value: 'temporary' }, 60); // 1 minute TTL
 
 // Get or set pattern
-const expensiveData = await cache.getOrSet('expensive:operation', async () => {
-  // This function only runs if data is not in cache
-  return await performExpensiveOperation();
-}, 600); // Cache for 10 minutes
+const expensiveData = await cache.getOrSet(
+  'expensive:operation',
+  async () => {
+    // This function only runs if data is not in cache
+    return await performExpensiveOperation();
+  },
+  600
+); // Cache for 10 minutes
 
 // Generate cache keys for APIs
 const cacheKey = cache.generateKey('/api/users', { page: 1, limit: 10 });
@@ -140,11 +146,11 @@ console.log(`Cache size: ${stats.size}/${stats.maxSize}`);
 
 ```javascript
 const cache = new CacheService({
-  defaultTTL: 300,           // Default TTL in seconds
-  maxSize: 1000,             // Maximum number of entries
-  enableLogging: false,      // Enable logging
-  logger: null,              // Logger instance
-  cleanupInterval: 60000     // Cleanup interval in milliseconds
+  defaultTTL: 300, // Default TTL in seconds
+  maxSize: 1000, // Maximum number of entries
+  enableLogging: false, // Enable logging
+  logger: null, // Logger instance
+  cleanupInterval: 60000, // Cleanup interval in milliseconds
 });
 ```
 
@@ -165,6 +171,7 @@ const cache = new CacheService({
 A base controller class for Express.js applications with common patterns and utilities.
 
 #### Features
+
 - Standardized response formats
 - Error handling utilities
 - Input validation helpers
@@ -176,7 +183,7 @@ A base controller class for Express.js applications with common patterns and uti
 #### Usage
 
 ```javascript
-const { BaseController } = require('@pricedb/io-utils');
+const { BaseController } = require('@pricedb-io/utils');
 const express = require('express');
 
 class UserController extends BaseController {
@@ -184,7 +191,7 @@ class UserController extends BaseController {
     super({
       enableLogging: true,
       logger: logger,
-      defaultPaginationLimit: 20
+      defaultPaginationLimit: 20,
     });
   }
 
@@ -201,10 +208,9 @@ class UserController extends BaseController {
       const users = await getUsersFromDb(offset, limit);
 
       // Send success response
-      this.sendSuccess(res, users, 200, { 
-        pagination: { page, limit, total: users.length } 
+      this.sendSuccess(res, users, 200, {
+        pagination: { page, limit, total: users.length },
       });
-
     } catch (error) {
       this.handleDbError(res, error, 'getting users');
     }
@@ -212,10 +218,13 @@ class UserController extends BaseController {
 }
 
 // Static usage
-app.get('/users', BaseController.asyncHandler(async (req, res) => {
-  const users = await getUsers();
-  BaseController.sendSuccess(res, users);
-}));
+app.get(
+  '/users',
+  BaseController.asyncHandler(async (req, res) => {
+    const users = await getUsers();
+    BaseController.sendSuccess(res, users);
+  })
+);
 ```
 
 #### Methods
@@ -235,6 +244,7 @@ app.get('/users', BaseController.asyncHandler(async (req, res) => {
 Middleware to ensure requests come through Cloudflare and provide additional security.
 
 #### Features
+
 - Verify Cloudflare headers
 - Block direct IP access
 - Domain allowlist
@@ -245,7 +255,7 @@ Middleware to ensure requests come through Cloudflare and provide additional sec
 #### Usage
 
 ```javascript
-const { CloudflareProtection } = require('@pricedb/io-utils');
+const { CloudflareProtection } = require('@pricedb-io/utils');
 const express = require('express');
 
 const app = express();
@@ -255,21 +265,20 @@ const cloudflare = new CloudflareProtection({
   allowedDomains: ['yourdomain.com', 'api.yourdomain.com'],
   developmentMode: process.env.NODE_ENV === 'development',
   enableLogging: true,
-  logger: logger
+  logger: logger,
 });
 
 app.use(cloudflare.middleware());
 
 // Or use static factory method
-app.use(CloudflareProtection.create({
-  allowedDomains: ['yourdomain.com']
-}));
+app.use(
+  CloudflareProtection.create({
+    allowedDomains: ['yourdomain.com'],
+  })
+);
 
 // Create whitelist for specific IPs
-const whitelistMiddleware = cloudflare.createWhitelistMiddleware([
-  '192.168.1.100',
-  '10.0.0.50'
-]);
+const whitelistMiddleware = cloudflare.createWhitelistMiddleware(['192.168.1.100', '10.0.0.50']);
 
 app.use('/admin', whitelistMiddleware);
 ```
@@ -278,14 +287,14 @@ app.use('/admin', whitelistMiddleware);
 
 ```javascript
 const cloudflare = new CloudflareProtection({
-  allowedDomains: [],         // Array of allowed domains
-  blockDirectIP: true,        // Block direct IP access
-  requireCloudflare: true,    // Require Cloudflare headers
-  developmentMode: false,     // Skip all checks in development
-  logBlocked: true,          // Log blocked requests
-  allowLocalhost: false,      // Allow localhost requests
-  enableLogging: false,       // Enable logging
-  logger: null               // Logger instance
+  allowedDomains: [], // Array of allowed domains
+  blockDirectIP: true, // Block direct IP access
+  requireCloudflare: true, // Require Cloudflare headers
+  developmentMode: false, // Skip all checks in development
+  logBlocked: true, // Log blocked requests
+  allowLocalhost: false, // Allow localhost requests
+  enableLogging: false, // Enable logging
+  logger: null, // Logger instance
 });
 ```
 
@@ -293,7 +302,7 @@ const cloudflare = new CloudflareProtection({
 
 ```javascript
 const express = require('express');
-const { Logger, CacheService, BaseController, CloudflareProtection } = require('@pricedb/io-utils');
+const { Logger, CacheService, BaseController, CloudflareProtection } = require('@pricedb-io/utils');
 
 // Initialize utilities
 const logger = new Logger({
@@ -301,14 +310,14 @@ const logger = new Logger({
   enableConsole: true,
   enableFile: true,
   filePath: './logs/app.log',
-  format: 'json'
+  format: 'json',
 });
 
 const cache = new CacheService({
   defaultTTL: 300,
   maxSize: 1000,
   enableLogging: true,
-  logger: logger
+  logger: logger,
 });
 
 // Express app
@@ -316,12 +325,14 @@ const app = express();
 app.use(express.json());
 
 // Cloudflare protection
-app.use(CloudflareProtection.create({
-  allowedDomains: ['yourdomain.com'],
-  developmentMode: process.env.NODE_ENV === 'development',
-  enableLogging: true,
-  logger: logger
-}));
+app.use(
+  CloudflareProtection.create({
+    allowedDomains: ['yourdomain.com'],
+    developmentMode: process.env.NODE_ENV === 'development',
+    enableLogging: true,
+    logger: logger,
+  })
+);
 
 // API Controller
 class ApiController extends BaseController {
@@ -331,11 +342,15 @@ class ApiController extends BaseController {
 
   getData = this.asyncHandler(async (req, res) => {
     const cacheKey = this.generateCacheKey('/api/data', req.query);
-    
-    const data = await cache.getOrSet(cacheKey, async () => {
-      logger.info('Fetching fresh data');
-      return await fetchDataFromDatabase();
-    }, 600);
+
+    const data = await cache.getOrSet(
+      cacheKey,
+      async () => {
+        logger.info('Fetching fresh data');
+        return await fetchDataFromDatabase();
+      },
+      600
+    );
 
     this.sendSuccess(res, data);
   });

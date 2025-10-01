@@ -7,7 +7,7 @@ This directory contains usage examples for @pricedb/io-utils modules.
 ### Logger Example
 
 ```javascript
-const { Logger } = require('@pricedb/io-utils');
+const { Logger } = require('@pricedb-io/utils');
 
 // Basic setup
 const logger = new Logger({
@@ -27,7 +27,7 @@ requestLogger.info('Processing request');
 ### Cache Example
 
 ```javascript
-const { CacheService } = require('@pricedb/io-utils');
+const { CacheService } = require('@pricedb-io/utils');
 
 const cache = new CacheService({
   defaultTTL: 300, // 5 minutes
@@ -47,7 +47,7 @@ const data = await cache.getOrSet('expensive:query', async () => {
 ### Controller Example
 
 ```javascript
-const { BaseController } = require('@pricedb/io-utils');
+const { BaseController } = require('@pricedb-io/utils');
 const express = require('express');
 
 class UserController extends BaseController {
@@ -67,7 +67,7 @@ class UserController extends BaseController {
 ### Cloudflare Protection Example
 
 ```javascript
-const { CloudflareProtection } = require('@pricedb/io-utils');
+const { CloudflareProtection } = require('@pricedb-io/utils');
 
 const app = express();
 

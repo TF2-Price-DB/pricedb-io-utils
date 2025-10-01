@@ -43,7 +43,7 @@ class ApiController extends BaseController {
   }
 
   // Get users with caching and pagination
-  getUsers = this.asyncHandler(async (req, res) => {
+  async getUsers(req, res) {
     const { page, limit } = this.parsePagination(req.query);
     const cacheKey = this.generateCacheKey('/api/users', { page, limit });
 
@@ -62,10 +62,10 @@ class ApiController extends BaseController {
     this.sendSuccess(res, users.users, 200, {
       pagination: { page, limit, total: users.total }
     });
-  });
+  }
 
   // Get single user
-  getUser = this.asyncHandler(async (req, res) => {
+  async getUser(req, res) {
     const { id } = req.params;
     const cacheKey = `user:${id}`;
 
@@ -83,10 +83,10 @@ class ApiController extends BaseController {
     }
 
     this.sendSuccess(res, user);
-  });
+  }
 
   // Health check endpoint
-  health = this.asyncHandler(async (req, res) => {
+  async health(req, res) {
     const cacheStats = cache.getStats();
     
     this.sendSuccess(res, {
@@ -94,16 +94,16 @@ class ApiController extends BaseController {
       timestamp: new Date().toISOString(),
       cache: cacheStats
     });
-  });
+  }
 }
 
 // Initialize controller
 const apiController = new ApiController();
 
 // Routes
-app.get('/health', apiController.health);
-app.get('/api/users', apiController.getUsers);
-app.get('/api/users/:id', apiController.getUser);
+app.get('/health', apiController.asyncHandler(apiController.health.bind(apiController)));
+app.get('/api/users', apiController.asyncHandler(apiController.getUsers.bind(apiController)));
+app.get('/api/users/:id', apiController.asyncHandler(apiController.getUser.bind(apiController)));
 
 // Rate limiting example
 const rateLimitMiddleware = apiController.createRateLimit(cache, {

@@ -1,7 +1,7 @@
 const { Logger, CacheService, BaseController, CloudflareProtection } = require('./index');
 
 async function testModules() {
-  console.log('Testing @pricedb/io-utils modules...\n');
+  console.log('Testing @pricedb-io/utils modules...\n');
 
   // Test Logger
   console.log('1. Testing Logger:');

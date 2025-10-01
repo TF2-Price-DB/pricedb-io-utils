@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+
 const logger = require('../logger');
 
 /**
@@ -68,7 +69,7 @@ class BaseController {
    * @param {Function} next - Express next function
    * @returns {boolean} True if validation passes
    */
-  static validateInput(req, res, next) {
+  static validateInput(req, res, _next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       BaseController.sendError(res, 'Validation failed', 400, {
@@ -182,7 +183,7 @@ class BaseController {
    * @param {object} res - Express response object
    * @param {Function} next - Express next function
    */
-  static errorHandler(error, req, res, next) {
+  static errorHandler(error, req, res, _next) {
     // Handle specific error types
     if (error.name === 'ValidationError') {
       BaseController.sendValidationError(res, error.message, error.details);
